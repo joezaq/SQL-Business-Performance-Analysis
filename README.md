@@ -16,6 +16,9 @@ This project reflects the practical responsibilities of a data analyst role, inc
 - Measure engagement and conversion from the products page to evaluate the impact of product discovery.
 - Analyse post-2014 cross-sell performance to understand how effectively products drive additional sales.
 
+### Technologies Used
+- **SQL**
+
 ## Data Dictionary
 The MavenFuzzyFactory database consists of six main tables: website_sessions, which records each user visit and its traffic source; website_pageviews, which tracks every page a user views within a session; orders, which stores completed purchases; order_items, which details the individual products within each order along with pricing and costs; order_item_refunds, which captures refunded items and amounts; and products, which contains the product catalogue and related information.
 
