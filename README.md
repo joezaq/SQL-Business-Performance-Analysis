@@ -23,8 +23,8 @@ The MavenFuzzyFactory database consists of six main tables: website_sessions, wh
 #### 1. First, I’d like to show our volume growth. Can you pull the overall session and order volume, trended by quarter, for the life of the business? Since the most recent quarter is incomplete.
 ```sql
 SELECT
-	YEAR(website_sessions.created_at) AS yr,
-	QUARTER(website_sessions.created_at) AS qtr,
+	YEAR(website_sessions.created_at) AS yr,	-- Year from website session table.
+	QUARTER(website_sessions.created_at) AS qtr,	-- Month from website session table.
 	  COUNT(DISTINCT website_sessions.website_session_id) AS total_sessions,
 	  COUNT(DISTINCT orders.order_id) AS total_orders
 FROM website_sessions
@@ -40,9 +40,9 @@ ORDER BY 1, 2;
 SELECT
 	YEAR(website_sessions.created_at) AS yr,
 	QUARTER(website_sessions.created_at) AS qtr,
-	  COUNT(DISTINCT orders.order_id)/COUNT(DISTINCT website_sessions.website_session_id) AS session_to_order_Convr,
-	  SUM(orders.price_usd)/Count(DISTINCT orders.order_id) AS order_rate,
-	  SUM(orders.price_usd)/Count(DISTINCT website_sessions.website_session_id) AS Session_rate
+	  COUNT(DISTINCT orders.order_id)/COUNT(DISTINCT website_sessions.website_session_id) AS session_to_order_Convr,	-- A distinct count of conversion rate, website to order.
+	  SUM(orders.price_usd)/Count(DISTINCT orders.order_id) AS order_rate,	-- Revenue per order growth
+	  SUM(orders.price_usd)/Count(DISTINCT website_sessions.website_session_id) AS Session_rate	-- Revenue per session growth
 
 FROM website_sessions
   LEFT JOIN orders
@@ -57,11 +57,11 @@ ORDER BY 1,2;
 SELECT
     YEAR(website_sessions.created_at) as yr,
     QUARTER(website_sessions.created_at) as Qtr,
-      COUNT(DISTINCT CASE WHEN  utm_source = 'gsearch' AND utm_campaign = 'nonbrand' THEN orders.order_id ELSE NULL END) AS gsearch_nonbrand,
-      COUNT(DISTINCT CASE WHEN  utm_source = 'bsearch' AND utm_campaign = 'nonbrand' THEN orders.order_id ELSE NULL END) AS bsearch_nonbrand,
-      COUNT(DISTINCT CASE WHEN  utm_campaign = 'brand' then orders.order_id ELSE NULL END) AS brand_search_overall,
-      COUNT(DISTINCT CASE WHEN  utm_source IS NULL AND http_referer IS NOT NULL THEN orders.order_id ELSE NULL END) AS organic_search,
-      COUNT(DISTINCT CASE WHEN  utm_source IS NULL AND http_referer IS NULL THEN orders.order_id ELSE NULL END) AS direct_typein
+      COUNT(DISTINCT CASE WHEN  utm_source = 'gsearch' AND utm_campaign = 'nonbrand' THEN orders.order_id ELSE NULL END) AS gsearch_nonbrand, -- Filtering order_id for gsearch and nonbrand intersection.
+      COUNT(DISTINCT CASE WHEN  utm_source = 'bsearch' AND utm_campaign = 'nonbrand' THEN orders.order_id ELSE NULL END) AS bsearch_nonbrand, -- Filtering order_id for bsearch and nonbrand intersection.
+      COUNT(DISTINCT CASE WHEN  utm_campaign = 'brand' then orders.order_id ELSE NULL END) AS brand_search_overall, -- Filtering order_id for brand.
+      COUNT(DISTINCT CASE WHEN  utm_source IS NULL AND http_referer IS NOT NULL THEN orders.order_id ELSE NULL END) AS organic_search, -- Filtering order_id for utmsource and referer.
+      COUNT(DISTINCT CASE WHEN  utm_source IS NULL AND http_referer IS NULL THEN orders.order_id ELSE NULL END) AS direct_typein	-- Filtering order_id for utmsource and non-referer.
 
 FROM website_sessions
   LEFT JOIN orders
@@ -124,6 +124,7 @@ ORDER BY 1,2
 
 #### 6. Let’s dive deeper into the impact of introducing new products. Please pull monthly sessions to the products page, and show how the % of those sessions clicking through another page has changed over time, along with a view of how conversion from products to placing an order has improved.
 ```sql
+-- IDENTIFYING THE VIEWS OF THE PRODUCT PAGE
 CREATE TEMPORARY TABLE product_pageviews
 SELECT
 	website_pageview_id,
