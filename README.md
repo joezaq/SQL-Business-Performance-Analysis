@@ -38,7 +38,7 @@ ORDER BY 1, 2;
 ```
 *First quarter of 2012 had 60 orders, fourth quarter of 2014 had 5908 orders. Showing orders increased by approximately **9,747%**.*
 
-#### 2. Next, let’s showcase all of our efficiency improvements. I would love to show quarterly figures since we launched, for session-to-order conversion rate, revenue per order, and revenue per session. 
+#### 2. Next, let’s showcase all of our efficiency improvements. I'd love to show quarterly figures since we launched, for session-to-order conversion rate, revenue per order, and revenue per session. 
 ```sql
 SELECT
 	YEAR(website_sessions.created_at) AS yr,
