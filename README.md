@@ -158,7 +158,7 @@ GROUP BY 1,2
 - *At the start of the business in Q1 2012, the click-through rate was **0.71 (71%)**, which increased to **0.8560 (85.6%)** by Q3 2015, indicating improved user engagement over time.*
 - *At the product-to-order rate rose from **0.0081 (0.8%)** in Q1 2012 to **0.0139 (1.3%)** in Q3 2015, reflecting a steady improvement in product purchase performance.*
 
-#### 7. 7. We made our 4th product available as a primary product on December 05, 2014 (it was previously only a cross-sell item). Could you please pull sales data since then, and show how well each product cross-sells from one another?
+#### 7. 7. We made our 4th product available as a primary product on December 05, 2014 (it was previously only a cross-sell item). Could you please pull sales data since then, and show how well each product cross-sells with the others?
 ```sql
 CREATE TEMPORARY TABLE primary_products
 SELECT
